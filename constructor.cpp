@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -15,6 +16,10 @@ public:
 
     // Constructor có tham số 
     Date(int day, int month, int year) : day(day), month(month), year(year) {}
+
+    string getBD() const {
+        return to_string(day) + "/" + to_string(month) + "/" + to_string(year);
+    }
 };
 
 class Student{
@@ -40,10 +45,38 @@ public:
     Student (Date d) : name (""), address (""), birthday (d), cccd ("") {}
 
     // Constructor chỉ lấy cccd
-    Student (string n) : name (""), address (""), birthday(), cccd ("") {}
+    Student (string n) : name (""), address (""), birthday(), cccd (n) {}
+
+    Student (string name) {}
+    Student (string name, string address) {}
+    Student (string name, string address, Date birthday) {}
+    Student (string name, string address, Date birthday, string cccd) {}
+
+    void setStudentInfo() { // Hàm nhập thông tin sinh viên
+        cin.ignore();
+        cout << "Enter student name: "; getline (cin, name);
+
+        cout << "Enter student address: "; getline (cin, address);
+
+        cout << "Enter birthday (day/month/year): ";
+        int day, month, year;
+        char separator;
+        cin >> day >> separator >> month >> separator >> year;
+        birthday = Date(day, month, year);
+
+        cout << "Enter cccd: "; getline (cin, cccd);
+    }
+
+    void getStudentInfo() const {  // Lấy thông tin sinh viên
+        cout << name << "\t\t" << address << "\t\t" << birthday.getBD() << "\t\t" << cccd << endl;
+    }
+
+    Student getStudents (string name);
+
+    Student getStudentbyAge (int age);
+
 };
 
-int main(){
-
-    return 0;
+void main(){
+    Student student1();
 }
