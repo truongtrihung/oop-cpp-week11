@@ -95,7 +95,7 @@ public:
     }
 };
 
-// ================= HÀM XỬ LÝ DANH SÁCH SINH VIÊN =================
+// ================ HÀM XỬ LÝ DANH SÁCH SINH VIÊN ================
 
 // Lấy thông tin sinh viên theo CCCD
 Student getStudentInfo(string cccd, vector<Student> ds) {
