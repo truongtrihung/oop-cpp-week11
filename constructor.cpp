@@ -5,78 +5,146 @@
 using namespace std;
 
 class Date {
-private:
-    int day;
-    int month;
-    int year;
-
 public:
-    // Constructor không có tham số
-    Date() : day(0), month(0), year(0) {}
+    int day, month, year;
 
-    // Constructor có tham số 
-    Date(int day, int month, int year) : day(day), month(month), year(year) {}
+    Date() {
+        day = 0;
+        month = 0;
+        year = 0;
+    }
 
-    string getBD() const {
-        return to_string(day) + "/" + to_string(month) + "/" + to_string(year);
+    Date(int d, int m, int y) {
+        day = d;
+        month = m;
+        year = y;
+    }
+
+    void printDate() const {
+        cout << day << "/" << month << "/" << year;
     }
 };
 
-class Student{
-// Properties - những tính chất của đối tượng 
+class Student {
+// properties - những tính chất của đối tượng 
 private:
     string name;
-    string address;
-    Date birthday; 
-    string cccd;
+    string address;  
+    Date birthdate; // yyyy/mm/dd hh:mm:ss
+    string cccd; 
 
-// Methods
-public:
-    // Constructors: các hàm khởi tạo dữ liệu --> thông báo hđh cấp phát vùng nhớ để lưu trữ 
-    Student() : name(""), address(""), birthday (), cccd ("") {}
-
-    // Constructor chỉ lấy name
-    Student (string n) : name (n), address(""), birthday(), cccd ("") {}
-
-    // Constructor chỉ lấy địa chỉ 
-    Student (string n) : name(""), address (n), birthday(), cccd ("") {}
-
-    // Constructor chỉ lấy birthday
-    Student (Date d) : name (""), address (""), birthday (d), cccd ("") {}
-
-    // Constructor chỉ lấy cccd
-    Student (string n) : name (""), address (""), birthday(), cccd (n) {}
-
-    Student (string name) {}
-    Student (string name, string address) {}
-    Student (string name, string address, Date birthday) {}
-    Student (string name, string address, Date birthday, string cccd) {}
-
-    void setStudentInfo() { // Hàm nhập thông tin sinh viên
-        cin.ignore();
-        cout << "Enter student name: "; getline (cin, name);
-
-        cout << "Enter student address: "; getline (cin, address);
-
-        cout << "Enter birthday (day/month/year): ";
-        int day, month, year;
-        char separator;
-        cin >> day >> separator >> month >> separator >> year;
-        birthday = Date(day, month, year);
-
-        cout << "Enter cccd: "; getline (cin, cccd);
+// methods
+public: 
+    // constructors: các hàm khởi tạo dữ liệu -> thông báo hđh cấp phát vùng nhớ để lưu trữ 
+    Student() {
+        name = ""; 
+        address = "";
+        birthdate = Date(); 
+        cccd = "";
     }
 
-    void getStudentInfo() const {  // Lấy thông tin sinh viên
-        cout << name << "\t\t" << address << "\t\t" << birthday.getBD() << "\t\t" << cccd << endl;
+    Student(string n) {
+        name = n; 
+        address = "";
+        birthdate = Date(); 
+        cccd = "";
+    }  
+
+    Student(Date d) {
+        name = ""; 
+        address = "";
+        birthdate = d; 
+        cccd = "";
     }
 
-    Student getStudents (string name);
+    Student(string n, string a) {
+        name = n;
+        address = a;
+        birthdate = Date();
+        cccd = "";
+    }
 
-    Student getStudentbyAge (int age);
+    Student(string n, string a, Date d) {
+        name = n;
+        address = a;
+        birthdate = d;
+        cccd = "";
+    }
 
+    Student(string n, string a, Date d, string c) {
+        name = n;
+        address = a;
+        birthdate = d;
+        cccd = c;
+    }
+
+    // Getter cơ bản
+    string getName() const { return name; }
+    string getAddress() const { return address; }
+    string getCccd() const { return cccd; }
+    Date getBirthdate() const { return birthdate; }
+    int getAge() const { return 2026 - birthdate.year; }
+
+    // 1. Nhập thông tin sinh viên 
+    void setStudentInfo() {
+        cout << "Nhap ho ten: ";
+        getline(cin, name);
+
+        cout << "Nhap dia chi: ";
+        getline(cin, address);
+
+        cout << "Nhap ngay thang nam sinh (ngay thang nam): ";
+        cin >> birthdate.day >> birthdate.month >> birthdate.year;
+        cin.ignore(); 
+
+        cout << "Nhap CCCD: ";
+        getline(cin, cccd);
+    }
+
+    // Hàm xuất thông tin sinh viên
+    void printStudentInfo() const {
+        cout << "Ho ten: " << name << " | Dia chi: " << address << " | Ngay sinh: ";
+        birthdate.printDate();
+        cout << " | CCCD: " << cccd << endl;
+    }
+
+    // 2. Lấy thông tin 1 sinh viên theo CCCD từ danh sách
+    static Student getStudentInfo(string searchCccd, const vector<Student>& list) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list[i].cccd == searchCccd) {
+                return list[i];
+            }
+        }
+        return Student(); // Trả về sinh viên rỗng nếu không tìm thấy
+    }
+
+    // 3. Lấy danh sách sinh viên theo tên
+    static vector<Student> getStudents(string searchName, const vector<Student>& list) {
+        vector<Student> result;
+        for (int i = 0; i < list.size(); i++) {
+            if (list[i].name == searchName) {
+                result.push_back(list[i]);
+            }
+        }
+        return result;
+    }
+
+    // 4. Lấy danh sách sinh viên theo tuổi
+    static vector<Student> getStudentsbyAge(int searchAge, const vector<Student>& list) {
+        vector<Student> result;
+        for (int i = 0; i < list.size(); i++) {
+            if (list[i].getAge() == searchAge) {
+                result.push_back(list[i]);
+            }
+        }
+        return result;
+    }
 };
 
-void main(){
-    Student student1();
+int main() {
+    Student student1;
+    Student student2("hung");
+    Student student3("", "Nguyen Ai Quoc");
+
+    return 0;
 }
