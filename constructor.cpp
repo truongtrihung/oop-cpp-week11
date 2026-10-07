@@ -89,7 +89,7 @@ public:
         getline(cin, address);
         cout << "Nhap ngay thang nam sinh (ngay thang nam): ";
         cin >> birthdate.day >> birthdate.month >> birthdate.year;
-        cin.ignore(); // Tránh trôi lệnh
+        cin.ignore(); 
         cout << "Nhap CCCD: ";
         getline(cin, cccd);
     }
